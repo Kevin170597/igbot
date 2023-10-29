@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { addStoryService, getStoryService, getAllStoriesService } from "../services"
+import { addStoryService, getStoryService, getAllStoriesService } from "../../services"
 
 export const getAllStories = async (req: Request, res: Response) => {
     const response = await getAllStoriesService()

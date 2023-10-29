@@ -1,11 +1,8 @@
 import { Schema, model, models } from "mongoose"
-import { IgPhotoInterface } from "../interfaces"
+import { IgStoryInterface } from "../../interfaces"
 
-const IgPhotoSchema = new Schema<IgPhotoInterface>(
+const IgStorySchema = new Schema<IgStoryInterface>(
     {
-        caption: {
-            type: String
-        },
         url: {
             type: String,
             required: true
@@ -26,8 +23,8 @@ const IgPhotoSchema = new Schema<IgPhotoInterface>(
     {
         timestamps: true,
         versionKey: false,
-        collection: "ig-photos"
+        collection: "ig-stories"
     }
 )
 
-export const IgPhotoModel = models["ig-photos"] || model("ig-photos", IgPhotoSchema)
+export const IgStoryModel = models["ig-stories"] || model("ig-stories", IgStorySchema)

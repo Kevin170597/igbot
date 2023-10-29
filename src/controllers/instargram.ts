@@ -8,9 +8,11 @@ export const postAlbum = async (req: Request, res: Response) => {
         const hour = req.query.hour as string
         const day = moment().format("DD/MM/YYYY")
 
-        const { urls, caption } = await getAlbumService(username, day, hour)
-        if (!urls || !caption) throw new Error("Album not found!")
-        const publish = await postAlbumService(username, urls, caption)
+        const album = await getAlbumService(username, day, hour)
+        if (!album) throw new Error("Album not found!")
+        const publish = await postAlbumService(username, album.urls, album.caption)
+        // await moveToPosted(album)
+        // await deleteAlbum(album._id)
         res.send({ day, username, hour, publish })
     } catch (error) {
         res.send(error)

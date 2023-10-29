@@ -1,5 +1,5 @@
-import { IgPhotoModel } from "../models"
-import { IgPhotoInterface } from "../interfaces"
+import { IgPhotoModel } from "../../models"
+import { IgPhotoInterface } from "../../interfaces"
 
 export const getPhotoService = async (username: string, day: string, hour: string): Promise<IgPhotoInterface> => {
     const response = await IgPhotoModel.findOne({

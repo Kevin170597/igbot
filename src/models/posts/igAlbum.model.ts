@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose"
-import { IgAlbumInterface } from "../interfaces"
+import { IgAlbumInterface } from "../../interfaces"
 
 const IgAlbumSchema = new Schema<IgAlbumInterface>(
     {

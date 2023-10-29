@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { addPhotoService, getPhotoService, getAllPhotosService } from "../services"
+import { addPhotoService, getPhotoService, getAllPhotosService } from "../../services"
 
 export const getAllPhotos = async (req: Request, res: Response) => {
     const response = await getAllPhotosService()

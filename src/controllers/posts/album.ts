@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { addAlbumService, getAlbumService, getAllAlbumsService } from "../services"
+import { addAlbumService, getAlbumService, getAllAlbumsService, deleteAlbumService } from "../../services"
 
 export const getAllAlbums = async (req: Request, res: Response) => {
     const response = await getAllAlbumsService()
@@ -15,5 +15,10 @@ export const getAlbum = async (req: Request, res: Response) => {
 
 export const addAlbum = async (req: Request, res: Response) => {
     const response = await addAlbumService(req.body)
+    res.send(response)
+}
+
+export const deleteAlbum = async (req: Request, res: Response) => {
+    const response = await deleteAlbumService(req.params.id)
     res.send(response)
 }

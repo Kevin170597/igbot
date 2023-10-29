@@ -1,5 +1,5 @@
-import { IgStoryModel } from "../models"
-import { IgStoryInterface } from "../interfaces"
+import { IgStoryModel } from "../../models"
+import { IgStoryInterface } from "../../interfaces"
 
 export const getStoryService = async (username: string, day: string, hour: string): Promise<IgStoryInterface> => {
     const response = await IgStoryModel.findOne({
