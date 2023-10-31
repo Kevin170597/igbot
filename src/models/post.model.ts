@@ -1,14 +1,20 @@
 import { Schema, model, models } from "mongoose"
-import { IgAlbumInterface } from "../../interfaces"
+import { PostInterface } from "../interfaces"
 
-const IgAlbumSchema = new Schema<IgAlbumInterface>(
+const PostSchema = new Schema<PostInterface>(
     {
+        type: {
+            type: String,
+            enum: ["album", "photo", "story"]
+        },
         caption: {
             type: String
         },
         urls: {
             type: [String],
-            required: true
+        },
+        url: {
+            type: String
         },
         username: {
             type: String,
@@ -26,8 +32,8 @@ const IgAlbumSchema = new Schema<IgAlbumInterface>(
     {
         timestamps: true,
         versionKey: false,
-        collection: "ig-albums"
+        collection: "ig-posts"
     }
 )
 
-export const IgAlbumModel = models["ig-albums"] || model("ig-albums", IgAlbumSchema)
+export const PostModel = models["ig-posts"] || model("ig-posts", PostSchema)

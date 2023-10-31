@@ -1,22 +1,8 @@
-export interface IgAlbumInterface {
-    _id?: string,
+export interface PostInterface {
+    type: "album" | "photo" | "story",
     caption: string,
-    urls: string[],
-    username: string,
-    day: string,
-    hour: string
-}
-
-export interface IgPhotoInterface {
-    caption: string,
-    url: string,
-    username: string,
-    day: string,
-    hour: string
-}
-
-export interface IgStoryInterface {
-    url: string,
+    urls?: string[],
+    url?: string,
     username: string,
     day: string,
     hour: string

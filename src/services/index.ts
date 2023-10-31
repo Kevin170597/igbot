@@ -1,2 +1,2 @@
 export * from "./instagram.services"
-export * from "./posts"
+export * from "./posts.services"

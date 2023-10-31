@@ -1,19 +1,11 @@
 import { Router } from "express"
-import { addAlbum, getAllAlbums, getAlbum, deleteAlbum, addPhoto, getAllPhotos, getPhoto, addStory, getAllStories, getStory } from "../controllers"
+import { getAllPosts, getPost, getPostById, addPost } from "../controllers"
 
 const router = Router()
 
-router.get("/album/all", getAllAlbums)
-router.get("/album/:username", getAlbum)
-router.post("/album/add", addAlbum)
-router.delete("/album/:id", deleteAlbum)
-
-router.get("/photo/all", getAllPhotos)
-router.get("/photo/:username", getPhoto)
-router.post("/photo/add", addPhoto)
-
-router.get("/story/all", getAllStories)
-router.get("/story/:username", getStory)
-router.post("/story/add", addStory)
+router.get("/:type/all", getAllPosts)
+router.get("/:type/:username", getPost)
+router.get("/:type/:username/:id", getPostById)
+router.post("/:type/add", addPost)
 
 export { router }
