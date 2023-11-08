@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { getAllPostsService, getPostService, getPostByIdService, addPostService } from "../services"
+import { getAllPostsService, getPostService, getPostByIdService, addPostService, updatePostService } from "../services"
 
 export const getAllPosts = async (req: Request, res: Response) => {
     try {
@@ -43,6 +43,19 @@ export const addPost = async (req: Request, res: Response) => {
         const type = <"album" | "photo" | "story">req.params.type
         const body = req.body
         const response = await addPostService(type, body)
+        res.send(response)
+    } catch (error) {
+        if (error instanceof Error) res.send({ error: error.message })
+        else res.send(error)
+    }
+}
+
+export const updatePost = async (req: Request, res: Response) => {
+    try {
+        const type = <"album" | "photo" | "story">req.params.type
+        const body = req.body
+        const id = req.params.id as string
+        const response = await updatePostService(type, body, id)
         res.send(response)
     } catch (error) {
         if (error instanceof Error) res.send({ error: error.message })

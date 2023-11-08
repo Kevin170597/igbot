@@ -1,5 +1,6 @@
 import { IgApiClient } from "instagram-private-api"
 import { get } from "request-promise"
+import { StickerBuilder } from "instagram-private-api/dist/sticker-builder"
 
 const ig = new IgApiClient()
 
@@ -39,6 +40,30 @@ export const postPhotoService = async (username: string, url: string, caption: s
     const publishResult = await ig.publish.photo({
         file: imageBuffer,
         caption
+    })
+
+    return publishResult
+}
+
+export const postStoryService = async () => {
+    let username = "bullworth.pics"
+    const fixedName = username.split(".").join("").toUpperCase()
+    await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
+
+    const imageBuffer = await get({
+        url: "https://drive.google.com/uc?export=view&id=1_XPDACZ41zPeDoOpkJdIByJzYuFkzfoT",
+        encoding: null
+    })
+
+    const publishResult = await ig.publish.story({
+        file: imageBuffer,
+        stickerConfig: new StickerBuilder()
+            .add(StickerBuilder.attachmentFromMedia(
+                (await ig.feed.timeline().items())[0]
+            ).center().scale(2))
+            .add(StickerBuilder.chat({ text: "Give a <3" }))
+            .build(),
+        caption: "Hey there..."
     })
 
     return publishResult

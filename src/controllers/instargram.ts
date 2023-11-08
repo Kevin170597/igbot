@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { postAlbumService, postPhotoService, getPostService  } from "../services"
+import { updatePostService, postAlbumService, postPhotoService, getPostService, postStoryService  } from "../services"
 import moment from "moment"
 
 export const postAlbum = async (req: Request, res: Response) => {
@@ -12,9 +12,9 @@ export const postAlbum = async (req: Request, res: Response) => {
         if (!album) throw new Error("Album not found!")
         if (!album.urls) throw new Error("Property urls not found.")
         const publish = await postAlbumService(username, album.urls, album.caption)
-        // await moveToPosted(album)
-        // await deleteAlbum(album._id)
-        res.send({ username, day, hour, publish })
+        const update = await updatePostService("album", { posted: true }, (album._id ? album._id : ""))
+        console.log(update)
+        res.send({ username, day, hour,  })
     } catch (error) {
         if (error instanceof Error) res.send({ error: error.message })
         else res.send(error)
@@ -32,6 +32,16 @@ export const postPhoto = async (req: Request, res: Response) => {
         if (!photo.url) throw new Error("Photo not found!")
         const publish = await postPhotoService(username, photo.url, photo.caption)
         res.send({ username, day, hour, publish })
+    } catch (error) {
+        if (error instanceof Error) res.send({ error: error.message })
+        else res.send(error)
+    }
+}
+
+export const postStory = async (req: Request, res: Response) => {
+    try {
+        const publish = await postStoryService()
+        res.send(publish)
     } catch (error) {
         if (error instanceof Error) res.send({ error: error.message })
         else res.send(error)

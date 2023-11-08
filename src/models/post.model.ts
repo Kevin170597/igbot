@@ -27,6 +27,11 @@ const PostSchema = new Schema<PostInterface>(
         hour: {
             type: String,
             required: true
+        },
+        posted: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     },
     {
