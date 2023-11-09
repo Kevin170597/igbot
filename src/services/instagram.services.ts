@@ -9,7 +9,74 @@ export const igLogin = async (username: string, password: string) => {
     return await ig.account.login(username, password)
 }
 
-export const postAlbumService = async (username: string, urls: string[], caption: string) => {
+interface ImageBuffer {
+    file: Buffer
+}
+
+interface Params {
+    username: string,
+    urls?: string[],
+    url?: string,
+    caption?: string
+}
+
+const prepareImages = async (urls: string[] | string) => {
+    if (typeof urls === "string") {
+        return await get({ url: urls, encoding: null })
+    } else {
+        const imagesBuffer: ImageBuffer[] = []
+        for (const url of urls) {
+            const file = await get({ url, encoding: null })
+            imagesBuffer.push(file)
+        }
+        return imagesBuffer
+    }
+}
+
+const postService = async ({ username, urls, url, caption }: Params, isStory: boolean = false) => {
+    const fixedName = username.split(".").join("").toUpperCase()
+    await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
+
+    let imageBuffer: Buffer | ImageBuffer[]
+    if (url) {
+        imageBuffer = await prepareImages(url)
+    } else if (Array.isArray(urls)) {
+        imageBuffer = await prepareImages(urls)
+    } else {
+        throw new Error("Invalid input.")
+    }
+
+    if (!imageBuffer) {
+        throw new Error("Missing image data.")
+    }
+
+    if (Array.isArray(imageBuffer)) {
+        return await ig.publish.album({ items: imageBuffer, caption })
+    } else if (isStory) {
+        return await ig.publish.story({ file: imageBuffer })
+    } else {
+        return await ig.publish.photo({ file: imageBuffer })
+    }
+}
+
+export const postAlbumService = async ({ username, urls, caption }: Params) => {
+    if (!urls) throw new Error("Missing urls.")
+    return await postService({ username, urls, caption })
+}
+
+export const postPhotoService = async ({ username, url, caption }: Params) => {
+    if (!url) throw new Error("Missing url.")
+    return await postService({ username, url, caption })
+}
+
+export const postStoryService = async ({ username, url }: Params) => {
+    if (!url) throw new Error("Missing url.")
+    return await postService({ username, url }, true)
+}
+
+
+
+/*export const postAlbumService = async (username: string, urls: string[], caption?: string) => {
     const fixedName = username.split(".").join("").toUpperCase()
     await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
 
@@ -28,7 +95,7 @@ export const postAlbumService = async (username: string, urls: string[], caption
     return publishResult
 }
 
-export const postPhotoService = async (username: string, url: string, caption: string) => {
+export const postPhotoService = async (username: string, url: string, caption?: string) => {
     const fixedName = username.split(".").join("").toUpperCase()
     await igLogin(username, process.env[`${fixedName}_IG_PASSWORD`] as string)
 
@@ -67,4 +134,4 @@ export const postStoryService = async () => {
     })
 
     return publishResult
-}
+}*/
