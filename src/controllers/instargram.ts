@@ -23,8 +23,10 @@ const handlePost = async (req: Request, res: Response, type: PostType, postServi
 
         const publish = await postService({
             username,
-            type: type === "album" ? post.urls : post.url,
-            caption: post.caption
+            type,
+            caption: post.caption,
+            url: post.url,
+            urls: post.urls
         })
 
         await updatePostService({

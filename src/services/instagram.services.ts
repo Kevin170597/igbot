@@ -27,7 +27,7 @@ const prepareImages = async (urls: string[] | string) => {
         const imagesBuffer: ImageBuffer[] = []
         for (const url of urls) {
             const file = await get({ url, encoding: null })
-            imagesBuffer.push(file)
+            imagesBuffer.push({ file })
         }
         return imagesBuffer
     }

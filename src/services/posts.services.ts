@@ -81,7 +81,6 @@ export const addPostService = async ({ type, post }: Params) => {
 export const updatePostService = async ({ type, post, id }: Params) => {
     if (!post) throw new Error("Post data is required.")
     validatePostType(type)
-    validatePostUrls(type, post)
     validateRequiredFields({ type, post, id })
     const res = await PostModel.updateOne({ _id: id, type }, post)
     return res
